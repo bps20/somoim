@@ -7,8 +7,6 @@ import Profile from "routes/Profile";
 
 const AppRouter = ({ isLoggedIn }) => {
 
-    console.log(isLoggedIn);
-
     return (
         <Router>
             {isLoggedIn && <Navigation /> }
