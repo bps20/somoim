@@ -1,6 +1,6 @@
 import { authService } from "fbase";
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const Auth = () => {
     const [email, setEmail] = useState(""); //email 체크
@@ -36,6 +36,22 @@ const Auth = () => {
 
     };
     const toggleAccount = () => setNewAccount((prev) => !prev);
+    
+    const onSocialClick = async (event) =>{
+        const {target:{name}} = event; //ev6
+        let provider;
+        try{
+            if(name === "google"){
+                provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(authService, provider);
+                //const credential = GoogleAuthProvider.credentialFromResult(result);
+            }
+        } catch(error){
+            console.log(error);
+        }
+        
+        console.log(event.target.name);
+    }
 
     return (
         <div>
@@ -53,7 +69,7 @@ const Auth = () => {
                 {newAccount ? "로그인 모드" : "회원가입 모드"}
             </button>
             <div>
-                <button>Continue with Google</button>
+                <button onClick={onSocialClick} name="google">Continue with Google</button>
             </div>
         </div>
     )
