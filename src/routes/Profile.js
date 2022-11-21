@@ -1,6 +1,7 @@
 import { authService } from "fbase";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Map from "components/Map"
 
 const AppProfile = ({ isLoggedIn }) => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const AppProfile = ({ isLoggedIn }) => {
     return (
         <>
             <button onClick={ onLogOutClick }>로그아웃</button>
+            <Map />
         </>
     );
 };

@@ -69,11 +69,10 @@ const Auth = () => {
                 {newAccount ? "로그인 모드" : "회원가입 모드"}
             </button>
             <div>
-                <button onClick={onSocialClick} name="google">Continue with Google</button>
+                <button onClick={onSocialClick} name="google">Google 아이디로 로그인</button>
             </div>
         </div>
     )
-}
-    ;
+};
 
 export default Auth;
