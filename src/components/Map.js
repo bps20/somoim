@@ -27,25 +27,22 @@ const Map = () => {
         var markerInfo = [
             {
                 content: '<div class="wrap">' +
-                    '    <div class="info">' +
-                    '        <div class="title">' +
-                    '            맛집 제1번' +
-                    // '            <div class="close" onclick={closeOverlay(overlay)} title="닫기"></div>' +
-                    '        </div>' +
-                    '        <div class="body">' +
-                    '            <div class="img">' +
-                    '                <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png" width="73" height="70">' +
-                    '           </div>' +
-                    '            <div class="desc">' +
-                    '                <div class="ellipsis">서울특별시 왕십리로 222</div>' +
-                    '                <div class="jibun ellipsis">(우) 11111 (지번) 사근동 222</div>' +
-                    '                <div><a href="https://www.hanyang.ac.kr" target="_blank" class="link">홈페이지</a></div>' +
-                    '            </div>' +
-                    '        </div>' +
-                    '    </div>' +
-                    '</div>',
+                            '<div class="info">' +
+                                '<div class="title">맛집 제1번</div>' +
+                    //          '<div class="close" onclick={closeOverlay(overlay)} title="닫기"></div>' +
+                                '<div class="body">' +
+                                    '<div class="img">' +
+                                        '<img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png" width="73" height="70">' +
+                                    '</div>' +
+                                    '<div class="desc">' +
+                                        '<div class="ellipsis">서울특별시 왕십리로 222</div>' +
+                                        '<div class="jibun ellipsis">(우) 11111 (지번) 사근동 222</div>' +
+                                        '<div><a href="https://www.hanyang.ac.kr" target="_blank" class="link">홈페이지</a></div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>',
                 latlng: new kakao.maps.LatLng(37.54699, 127.09598),
-                ismark: false
             },
             {
                 content: '<div class="wrap">' +
@@ -67,7 +64,6 @@ const Map = () => {
                     '    </div>' +
                     '</div>',
                 latlng: new kakao.maps.LatLng(35.450936, 126.569477),
-                ismark: false
             }
         ];
 
@@ -77,6 +73,11 @@ const Map = () => {
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
         // 마커를 생성합니다
+        createMarkers(markerInfo, markerImage);
+
+    }, []);
+
+    function createMarkers( markerInfo, markerImage ){
         for (var i = 0; i < markerInfo.length; i++) {
             var marker = new kakao.maps.Marker({
                 map: map,
@@ -106,34 +107,18 @@ const Map = () => {
 
             overlay.setMap(null);
             kakao.maps.event.addListener(marker, 'click', clickListener(map, overlay));
-
         }
-
-        function clickListener(mapÍ, overlay) {
-            return function () {
-                overlay.setMap(map);
-            };
-        }
-        function closeOverlay(overlay) {
-            return function () {
-                overlay.setMap(null);
-            };
-        }
-
-        function zoomIn() {
-            map.setLevel(map.getLevel() - 1);
-        }
-
-        // 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
-        function zoomOut() {
-            map.setLevel(map.getLevel() + 1);
-        }
-
-
-
-    }, []);
-
-
+    }
+    function clickListener(map, overlay) {
+        return function () {
+            overlay.setMap(map);
+        };
+    }
+    function closeOverlay(overlay) {
+        return function () {
+            overlay.setMap(null);
+        };
+    }
 
     return (
         <>
