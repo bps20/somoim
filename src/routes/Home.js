@@ -9,8 +9,7 @@ const Home = ({ userObj }) => {
 
     //모임 리스트를 렌더링 후 한 번 로딩
     useEffect(() => {
-        //q는 쿼리
-        const q = query(collection(dbService, "moim"), orderBy("write_time", "desc"));
+        const q = query(collection(dbService, "moim"), orderBy("write_time", "desc")); //q는 쿼리
 
         //모임 리스트를 스냅샷으로 로딩
         onSnapshot(q, (snapshot) => {

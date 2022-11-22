@@ -1,6 +1,8 @@
 /* global kakao */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "components/Map.css";
+import { dbService } from "fbase";
+import { addDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
 
 const { kakao } = window;
 function closeOverlay(overlay) {
@@ -11,6 +13,8 @@ function closeOverlay(overlay) {
 const Map = () => {
     let map;
     const initMapLat = 36.35133, initMapLng = 127.734086;
+
+    const [mapPins, setMapPins] = useState([]); //맵핀 리스트
 
     useEffect(() => {
         let container = document.getElementById("map");
@@ -24,24 +28,23 @@ const Map = () => {
         var zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
+       // MapDB();
+
+        const q = query(collection(dbService, "map")); //q는 쿼리
+
+        //맵핀 리스트를 스냅샷으로 로딩
+        onSnapshot(q, (snapshot) => {
+            const mapPinArr = snapshot.docs.map((document) => ({
+                id: document.id,
+                ...document.data(),
+            }))
+            setMapPins(mapPinArr);
+
+        });
+
         var markerInfo = [
             {
-                content: '<div class="wrap">' +
-                            '<div class="info">' +
-                                '<div class="title">맛집 제1번</div>' +
-                    //          '<div class="close" onclick={closeOverlay(overlay)} title="닫기"></div>' +
-                                '<div class="body">' +
-                                    '<div class="img">' +
-                                        '<img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png" width="73" height="70">' +
-                                    '</div>' +
-                                    '<div class="desc">' +
-                                        '<div class="ellipsis">서울특별시 왕십리로 222</div>' +
-                                        '<div class="jibun ellipsis">(우) 11111 (지번) 사근동 222</div>' +
-                                        '<div><a href="https://www.hanyang.ac.kr" target="_blank" class="link">홈페이지</a></div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>',
+                content: '<div class="wrap"><div class="info"><div class="title">맛집 제1번</div><div class="body"><div class="img"> <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png" width="73" height="70"></div><div class="desc"><div class="ellipsis">서울특별시 왕십리로 222</div><div class="jibun ellipsis">(우) 11111 (지번) 사근동 222</div><div><a href="https://www.hanyang.ac.kr" target="_blank" class="link">홈페이지</a></div></div></div></div></div>', 
                 latlng: new kakao.maps.LatLng(37.54699, 127.09598),
             },
             {
@@ -73,18 +76,24 @@ const Map = () => {
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
         // 마커를 생성합니다
-        createMarkers(markerInfo, markerImage);
+        //setTimeout(() => createMarkers(mapPins, markerImage), 1000);
+        createMarkers(mapPins, markerImage); 
 
     }, []);
 
-    function createMarkers( markerInfo, markerImage ){
+    function createMarkers(markerInfo, markerImage) {
         for (var i = 0; i < markerInfo.length; i++) {
+            const PinLatLng = new kakao.maps.LatLng(markerInfo[i].Lat, markerInfo[i].Lng);
+
             var marker = new kakao.maps.Marker({
                 map: map,
-                position: markerInfo[i].latlng,
+                position: PinLatLng,
                 image: markerImage
             });
             //marker.setMap(map); //마커표시
+
+            console.log(markerInfo);
+            console.log(markerInfo[i].content);
 
             var overlay = new kakao.maps.CustomOverlay({
                 map: map,
@@ -95,6 +104,8 @@ const Map = () => {
                 yAnchor: 2
             });
 
+            console.log(overlay.getContent()); 
+
             var content = document.createElement("div");
             content.innerHTML = markerInfo[i].content;
 
@@ -102,8 +113,13 @@ const Map = () => {
             closeBtn.innerHTML = '닫기';
             closeBtn.onclick = closeOverlay(overlay);
 
+            console.log(content);
+            console.log(closeBtn); 
+
             content.appendChild(closeBtn);
             overlay.setContent(content);
+
+            console.log(overlay.getContent());
 
             overlay.setMap(null);
             kakao.maps.event.addListener(marker, 'click', clickListener(map, overlay));
