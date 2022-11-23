@@ -1,6 +1,6 @@
 /* global kakao */
-import React, { useEffect, useState } from "react";
 import "components/Map.css";
+import React, { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
 import { renderToString } from "react-dom/server"
@@ -136,7 +136,7 @@ const Map = ({ userObj }) => {
         };
     }
 
-    //모임 만들기
+    //탐방 만들기 (운영자 전용)
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -166,15 +166,15 @@ const Map = ({ userObj }) => {
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
+            { (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (<><form onSubmit={onSubmit}>
                 <input value={newMarker} onChange={onChange} type="text" placeholder="장소 이름" maxLength={20} />
                 <input value={newMarker} onChange={onChange} type="text" placeholder="좌표Lat" maxLength={20} />
                 <input value={newMarker} onChange={onChange} type="text" placeholder="좌표Lng" maxLength={20} />
-                <input value={newMarker} onChange={onChange} type="text" placeholder="좌표Lat" maxLength={20} />
+                <input value={newMarker} onChange={onChange} type="text" placeholder="리더ID" maxLength={20} />
                 <input type="submit" value="추가" />
-            </form>
-            <button onClick={mapAppeal}>지도 위에 표시하기</button>
+            </form><div class="mapTitle">탐방 지도</div></>) : (<div class="mapTitle">탐방 지도</div>)}
             <div id="map" style={{ width: "700px", height: "900px" }}></div>
+            <button onClick={mapAppeal}>지도 위에 표시하기</button>
         </div>
     );
 };
