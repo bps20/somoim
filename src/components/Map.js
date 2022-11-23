@@ -3,18 +3,17 @@ import React, { useEffect, useState } from "react";
 import "components/Map.css";
 import { dbService } from "fbase";
 import { addDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
+import { renderToString } from "react-dom/server"
 
 const { kakao } = window;
-function closeOverlay(overlay) {
-    return function () {
-        overlay.setMap(null);
-    };
-}
-const Map = () => {
+
+const Map = ({ userObj }) => {
     let map;
     const initMapLat = 36.35133, initMapLng = 127.734086;
 
-    const [mapPins, setMapPins] = useState([]); //맵핀 리스트
+    const [newMarker, setNewMarker] = useState(""); //새마커 추가
+    const [mapMarkers, setMapMarkers] = useState([]); //맵마커 리스트
+    const [cover, setCover] = useState(false); //지도 갱신용 state
 
     useEffect(() => {
         let container = document.getElementById("map");
@@ -28,9 +27,13 @@ const Map = () => {
         var zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-       // MapDB();
+        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+            imageSize = new kakao.maps.Size(56, 60.375),
+            imageOption = { offset: new kakao.maps.Point(27, 69) };
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-        const q = query(collection(dbService, "map")); //q는 쿼리
+        /*DB연결*/
+        const q = query(collection(dbService, "map"));
 
         //맵핀 리스트를 스냅샷으로 로딩
         onSnapshot(q, (snapshot) => {
@@ -38,50 +41,33 @@ const Map = () => {
                 id: document.id,
                 ...document.data(),
             }))
-            setMapPins(mapPinArr);
-
+            setMapMarkers(mapPinArr);
         });
 
-        var markerInfo = [
-            {
-                content: '<div class="wrap"><div class="info"><div class="title">맛집 제1번</div><div class="body"><div class="img"> <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png" width="73" height="70"></div><div class="desc"><div class="ellipsis">서울특별시 왕십리로 222</div><div class="jibun ellipsis">(우) 11111 (지번) 사근동 222</div><div><a href="https://www.hanyang.ac.kr" target="_blank" class="link">홈페이지</a></div></div></div></div></div>', 
-                latlng: new kakao.maps.LatLng(37.54699, 127.09598),
-            },
-            {
-                content: '<div class="wrap">' +
-                    '    <div class="info">' +
-                    '        <div class="title">' +
-                    '            카카오 스페이스닷원' +
-                    //'            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
-                    '        </div>' +
-                    '        <div class="body">' +
-                    '            <div class="img">' +
-                    '                <img src="https://cfile181.uf.daum.net/image/250649365602043421936D" width="73" height="70">' +
-                    '           </div>' +
-                    '            <div class="desc">' +
-                    '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' +
-                    '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' +
-                    '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' +
-                    '            </div>' +
-                    '        </div>' +
-                    '    </div>' +
-                    '</div>',
-                latlng: new kakao.maps.LatLng(35.450936, 126.569477),
-            }
-        ];
+        /*
+        async function getData() {
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                const mapPinArr = querySnapshot.docs.map((document) => ({
+                    id: document.id,
+                    ...document.data(),
+                }))
+                setMapMarkers(mapPinArr);
+            });
+        }
+        getData();*/
 
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-            imageSize = new kakao.maps.Size(64, 69),
-            imageOption = { offset: new kakao.maps.Point(27, 69) };
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+        //맵마커 생성
+        createMarkers(mapMarkers, markerImage);
+        setTimeout(() => mapAppeal(), 1000);
+    }, [cover]);
 
-        // 마커를 생성합니다
-        //setTimeout(() => createMarkers(mapPins, markerImage), 1000);
-        createMarkers(mapPins, markerImage); 
 
-    }, []);
 
+
+    /*맵에 마커를 뿌린다*/
     function createMarkers(markerInfo, markerImage) {
+        console.log(markerInfo);
         for (var i = 0; i < markerInfo.length; i++) {
             const PinLatLng = new kakao.maps.LatLng(markerInfo[i].Lat, markerInfo[i].Lng);
 
@@ -92,34 +78,48 @@ const Map = () => {
             });
             //marker.setMap(map); //마커표시
 
-            console.log(markerInfo);
-            console.log(markerInfo[i].content);
-
             var overlay = new kakao.maps.CustomOverlay({
                 map: map,
                 clickable: true,
-                content: markerInfo[i].content,
+                content: null,
                 position: marker.getPosition(),
                 xAnchor: 0,
                 yAnchor: 2
             });
 
-            console.log(overlay.getContent()); 
+            const conBase = (
+                <div class="info">
+                    <div class="title">{markerInfo[i].title}</div>
+                    <div class="body">
+                        <div class="img"><img src={markerInfo[i].img} width="73" height="70" /></div>
+                    </div>
+                    <div class="desc">
+                        <div class="t_date">{markerInfo[i].t_date}</div>
+                        <div class="t_title">{markerInfo[i].t_title}</div>
+                        <div class="members">
+                            <div class="t_leader">{markerInfo[i].t_leaderID}</div>
+                            <div class="t_member">{markerInfo[i].t_memberID}</div>
+                        </div>
+                        <div>
+                            <a href={markerInfo[i].link} targer="_blank" class="link">탐방후기(카페링크)</a>
+                        </div>
+                    </div>
+                </div>)
 
             var content = document.createElement("div");
-            content.innerHTML = markerInfo[i].content;
+            content.className = "wrap";
+            const stringElement = renderToString(conBase);
+            content.innerHTML = stringElement;
 
-            var closeBtn = document.createElement("button");
-            closeBtn.innerHTML = '닫기';
-            closeBtn.onclick = closeOverlay(overlay);
-
+            console.log(stringElement);
             console.log(content);
-            console.log(closeBtn); 
+
+            var closeBtn = document.createElement("div");
+            closeBtn.className = "close";
+            closeBtn.onclick = closeOverlay(overlay);
 
             content.appendChild(closeBtn);
             overlay.setContent(content);
-
-            console.log(overlay.getContent());
 
             overlay.setMap(null);
             kakao.maps.event.addListener(marker, 'click', clickListener(map, overlay));
@@ -136,11 +136,47 @@ const Map = () => {
         };
     }
 
+    //모임 만들기
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            if (newMarker.length >= 1) { //타이틀 길이가 1이상
+                const docRef = await addDoc(collection(dbService, "map"), {
+                    title: newMarker,
+                    leader: (newMarker + "의 리더"),
+                    creatorId: userObj.uid,
+                });
+                setNewMarker("");
+                console.log("Document written with ID: ", docRef.id);
+            } else { console.log("Error : Title block is empty.") }
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    };
+
+    const onChange = (event) => {
+        const { target: { value },
+        } = event;
+        setNewMarker(value);
+    };
+
+    function mapAppeal() {
+        setCover(true);
+    }
+
     return (
-        <>
+        <div>
+            <form onSubmit={onSubmit}>
+                <input value={newMarker} onChange={onChange} type="text" placeholder="장소 이름" maxLength={20} />
+                <input value={newMarker} onChange={onChange} type="text" placeholder="좌표Lat" maxLength={20} />
+                <input value={newMarker} onChange={onChange} type="text" placeholder="좌표Lng" maxLength={20} />
+                <input value={newMarker} onChange={onChange} type="text" placeholder="좌표Lat" maxLength={20} />
+                <input type="submit" value="추가" />
+            </form>
+            <button onClick={mapAppeal}>지도 위에 표시하기</button>
             <div id="map" style={{ width: "700px", height: "900px" }}></div>
-        </>
+        </div>
     );
 };
 
-export default Map;
+export default Map; 

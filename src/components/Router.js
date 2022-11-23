@@ -14,7 +14,7 @@ const AppRouter = ({ isLoggedIn, userObj }) => {
                 {isLoggedIn ? (//Login여부확인
                 <>
                 <Route exact path="/" element={ <Home userObj={userObj}/> } />
-                <Route exact path="/profile" element={ <Profile isLoggedIn={isLoggedIn} /> }/>
+                <Route exact path="/profile" element={ <Profile isLoggedIn={isLoggedIn} userObj={userObj} /> }/>
                 </> ) : ( 
                 <Route exact path = "/" element={ <Auth /> } />
                 )}
