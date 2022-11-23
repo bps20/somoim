@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/somoim/static/css/main.2c9bef32.css",
+    "main.js": "/somoim/static/js/main.23c0da04.js",
+    "index.html": "/somoim/index.html",
+    "main.2c9bef32.css.map": "/somoim/static/css/main.2c9bef32.css.map",
+    "main.23c0da04.js.map": "/somoim/static/js/main.23c0da04.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2c9bef32.css",
+    "static/js/main.23c0da04.js"
+  ]
+}
