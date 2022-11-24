@@ -13,7 +13,7 @@ const Map = ({ userObj }) => {
 
     const [newMarker, setNewMarker] = useState(""); //새마커 추가
     const [mapMarkers, setMapMarkers] = useState([]); //맵마커 리스트
-    const [cover, setCover] = useState(false); //지도 갱신용 state
+    const [RevealMap, setRevealMap] = useState(false); //지도 갱신용 state
 
     useEffect(() => {
         let container = document.getElementById("map");
@@ -59,15 +59,14 @@ const Map = ({ userObj }) => {
 
         //맵마커 생성
         createMarkers(mapMarkers, markerImage);
-        setTimeout(() => mapAppeal(), 1000);
-    }, [cover]);
+        setTimeout(() => setRevealMap(true), 1000);
+    }, [RevealMap]);
 
 
 
 
     /*맵에 마커를 뿌린다*/
     function createMarkers(markerInfo, markerImage) {
-        console.log(markerInfo);
         for (var i = 0; i < markerInfo.length; i++) {
             const PinLatLng = new kakao.maps.LatLng(markerInfo[i].Lat, markerInfo[i].Lng);
 
@@ -111,15 +110,13 @@ const Map = ({ userObj }) => {
             const stringElement = renderToString(conBase);
             content.innerHTML = stringElement;
 
-            console.log(stringElement);
-            console.log(content);
-
             var closeBtn = document.createElement("div");
             closeBtn.className = "close";
             closeBtn.onclick = closeOverlay(overlay);
 
             content.appendChild(closeBtn);
             overlay.setContent(content);
+            console.log(content);
 
             overlay.setMap(null);
             kakao.maps.event.addListener(marker, 'click', clickListener(map, overlay));
@@ -160,10 +157,6 @@ const Map = ({ userObj }) => {
         setNewMarker(value);
     };
 
-    function mapAppeal() {
-        setCover(true);
-    }
-
     return (
         <div>
             { (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (<><form onSubmit={onSubmit}>
@@ -174,7 +167,7 @@ const Map = ({ userObj }) => {
                 <input type="submit" value="추가" />
             </form><div class="mapTitle">탐방 지도</div></>) : (<div class="mapTitle">탐방 지도</div>)}
             <div id="map" style={{ width: "700px", height: "900px" }}></div>
-            <button onClick={mapAppeal}>지도 위에 표시하기</button>
+            <button >지도 위에 표시하기</button>
         </div>
     );
 };

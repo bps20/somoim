@@ -9,8 +9,7 @@ const Auth = () => {
     const [error, setError] = useState(""); //에러 체크
 
     const onChange = (event) => {
-        const {
-            target: { name, value },
+        const { target: { name, value },
         } = event;
         if (name === "email") {
             setEmail(value);

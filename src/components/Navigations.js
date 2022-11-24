@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { authService } from "fbase";
 import { useNavigate } from "react-router-dom";
+import { BsEmojiSmile } from "react-icons/bs";
 
 const Navigation = ({ userObj }) => {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ const Navigation = ({ userObj }) => {
     return (
     <nav>
         <ul>
-            <div>환영합니다. {userObj.displayName}님</div>
+            <div><BsEmojiSmile/> 환영합니다. {userObj.displayName}님</div>
             <li>
                 <Link to="/">공지사항</Link>
             </li>
@@ -24,7 +25,7 @@ const Navigation = ({ userObj }) => {
                 <Link to="/EditProfile">닉네임수정</Link>
             </li>
             <li>
-                <button onClick={ onLogOutClick }>Logout</button>
+                <Link onClick={ onLogOutClick }>Logout</Link>
             </li>
         </ul>
     </nav>)
