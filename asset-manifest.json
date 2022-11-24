@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/somoim/static/css/main.2c9bef32.css",
-    "main.js": "/somoim/static/js/main.23c0da04.js",
+    "main.css": "/somoim/static/css/main.22fb1442.css",
+    "main.js": "/somoim/static/js/main.fff88a62.js",
     "index.html": "/somoim/index.html",
-    "main.2c9bef32.css.map": "/somoim/static/css/main.2c9bef32.css.map",
-    "main.23c0da04.js.map": "/somoim/static/js/main.23c0da04.js.map"
+    "main.22fb1442.css.map": "/somoim/static/css/main.22fb1442.css.map",
+    "main.fff88a62.js.map": "/somoim/static/js/main.fff88a62.js.map"
   },
   "entrypoints": [
-    "static/css/main.2c9bef32.css",
-    "static/js/main.23c0da04.js"
+    "static/css/main.22fb1442.css",
+    "static/js/main.fff88a62.js"
   ]
 }
