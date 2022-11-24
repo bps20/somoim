@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       {setInit ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/> : "로그인 정보 불러오는 중.." }
-      <footer className="tail">&copy; {new Date().getFullYear()} 맛집탐방 소모임</footer>
+      <footer className="tail" style={{zIndex:'5'}}>&copy; {new Date().getFullYear()} 맛집탐방 소모임</footer>
     </>
   );
 }

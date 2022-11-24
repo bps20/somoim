@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { updateProfile } from "firebase/auth";
+import { authService } from "fbase";
+import "routes/EditProfile.css";
+import { Link, Navigate } from "react-router-dom";
+import { FaUserTag } from "react-icons/fa";
+import { GiExitDoor } from "react-icons/gi";
 
-const EditProfile = ({ isLoggedIn, userObj}) => {
+const EditProfile = ({ isLoggedIn, userObj }) => {
 
     const [userName, setUserName] = useState(userObj.displayName);
     const [stateMsg, setStateMsg] = useState("");
@@ -10,11 +15,11 @@ const EditProfile = ({ isLoggedIn, userObj}) => {
         event.preventDefault();
         try {
             if ((userName.length >= 1)) { //닉네임 길이가 1이상
-                if(userName !==userObj.displayName){
-                    await updateProfile(userObj, {displayName: userName});
+                if (userName !== userObj.displayName) {
+                    await updateProfile(userObj, { displayName: userName });
                     setStateMsg("이름이 성공적으로 변경되었습니다. 새로고침시 반영됩니다.")
-                } else { setStateMsg("이름은 기존 이름과 달라야 합니다.")}
-            } else { setStateMsg("이름의 길이는 1글자 ~ 10글자여야 합니다.")}
+                } else { setStateMsg("이름은 기존 이름과 달라야 합니다.") }
+            } else { setStateMsg("이름의 길이는 1글자 ~ 10글자여야 합니다.") }
         } catch (error) {
             console.error("Error adding document: ", error);
         }
@@ -26,15 +31,36 @@ const EditProfile = ({ isLoggedIn, userObj}) => {
         setUserName(value);
     };
 
+    const onLogOutClick = () => {
+        authService.signOut();
+        Navigate('/');
+    };
+
     return (
-        <>
-        <h4>닉네임 수정</h4>
-            <form onSubmit={onSubmit}>닉네임 : 
-                <input value={userName} onChange={onChange} type="text" placeholder={userName} maxLength={10} />
-                <input type="submit" value="변경" />
-                <div>{stateMsg}</div>
-            </form>
-        </>
+        <div id="profile_wrap">
+            <ul id="profile_menu_bar">
+                <div id="profile_menu_contents">
+                    <li className="content"><Link style={{ color: 'black', textDecorationLine: 'none' }}><FaUserTag size="37" /><div>이름 변경</div></Link></li>
+                    <li className="content"><Link style={{ color: 'black', textDecorationLine: 'none' }} onClick={onLogOutClick} to="/"><GiExitDoor size="37" /><div>로그아웃</div></Link></li>
+                </div>
+            </ul>
+            <div id="edit_name_wrap">
+                <div id="edit_name_logo">이름 변경</div>
+                <div className="edit_name_text">이름은 탐방 지도 후기에 반영됩니다.</div>
+                <div className="edit_name_text2">실명 또는 개인 구분이 가능한 이름으로 부탁드립니다.</div>
+                <div className="edit_name_text2">이름은 1~10글자로 설정할 수 있습니다.</div>
+                <div style={{paddingTop:'50px'}}>
+                    <form className="factoryForm" onSubmit={onSubmit}>
+                        <div className="factoryInput_container">
+                            <input className="factoryInput_input" value={userName} onChange={onChange} type="text" placeholder={userName} maxLength={10} />
+                            <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+                            <div>{stateMsg}</div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
     );
 };
 

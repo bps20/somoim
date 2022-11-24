@@ -27,7 +27,6 @@ const Notice = ({ noticeObject, isOwner }) => {
                 setEditing(false);
             }
         }
-
     };
 
     const onChange = (event) => {
@@ -72,14 +71,14 @@ const Notice = ({ noticeObject, isOwner }) => {
                     <div class="buttons">
                         {editing ? (
                             <>
-                                <BsPencilSquare onClick={onSubmit}/>
-                                <GiCancel onClick={onModifyClick}/>
+                                <BsPencilSquare size={30} onClick={onSubmit} style={{marginLeft:'15px'}}/>
+                                <GiCancel size={30} onClick={onModifyClick} style={{marginLeft:'15px'}}/>
                             </>
                         ) : (
                             <>
-                                <BsPencilSquare onClick={onModifyClick} />
+                                <BsPencilSquare size={30} onClick={onModifyClick} style={{marginLeft:'15px'}}/>
                             </>)}
-                        <BsTrash onClick={onDeleteClick}/>
+                        <BsTrash size={30} onClick={onDeleteClick} style={{marginLeft:'15px'}}/>
 
                     </div>
                 )}

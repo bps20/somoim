@@ -4,11 +4,11 @@ import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firesto
 import React, { useEffect, useState } from "react";
 import Notice from "components/Notice";
 import timeConvert from "components/Time";
-import { AiOutlineNotification } from "react-icons/ai"
+import { AiFillNotification } from "react-icons/ai"
 
 const Home = ({ userObj }) => {
-    const [noticeTitle, setTitle] = useState(""); //공지사항 제목
-    const [noticeContents, setContents] = useState(""); //공지사항 내용
+    const [newNoticeTitle, setNoticeTitle] = useState(""); //공지사항 제목
+    const [newNoticeContents, setNoticeContents] = useState(""); //공지사항 내용
     const [notices, setNotices] = useState([]); //모임 리스트
 
     //공지사항 리스트를 렌더링 후 한 번 로딩
@@ -27,24 +27,25 @@ const Home = ({ userObj }) => {
     const onChange = (event) => {
         const { target: { name, value },
         } = event;
-        if (name === "notice_title") {
-            setTitle(value);
-        } else if (name === "notice_contents") {
-            setContents(value);
+        if (name === "title") {
+            setNoticeTitle(value);
+        } else if (name === "contents") {
+            setNoticeContents(value);
         }
     };
     //모임 만들기
     const onSubmit = async (event) => {
         event.preventDefault();
         try {
-            if (noticeTitle.length >= 1) { //타이틀 길이가 1이상
+            if (newNoticeTitle.length >= 1) { //타이틀 길이가 1이상
                 const docRef = await addDoc(collection(dbService, "notice"), {
-                    title: noticeTitle,
-                    contents: noticeContents,
+                    title: newNoticeTitle,
+                    contents: newNoticeContents,
                     write_time: timeConvert(),
                     creatorId: userObj.uid,
                 });
-                setTitle("");
+                setNoticeTitle("");
+                setNoticeContents("");
             } else { console.log("Error : Title block is empty.") }
         } catch (error) {
             console.error("Error adding document: ", error);
@@ -52,20 +53,21 @@ const Home = ({ userObj }) => {
     };
 
     return (
-        <div>{
-            (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (
-                <form onSubmit={onSubmit}>
-                    <input name="title" required value={noticeTitle} onChange={onChange} type="text" placeholder="공지사항 작성하시오." maxLength={120} />
-                    <input name="contents" required value={noticeContents} onChange={onChange} type="text" placeholder="내용을 작성하시오." maxLength={120} />
-                    <input type="submit" value="작성" />
-                </form>) : (<></>)
-        }
-        <div class="notice_word">소모임 공지사항<AiOutlineNotification style={{marginLeft:'10px'}}/></div>
-            <div>
+        <div id="home_wrap">
+            <div id="notice_word"><div><AiFillNotification size={50}/></div><div>소모임 공지사항</div></div>
+            <div className="notice_contents_wrap">
                 {notices.map((noticeOb) => (
                     <Notice key={noticeOb.id} noticeObject={noticeOb} isOwner={noticeOb.creatorId === userObj.uid} />
                 ))}
             </div>
+            {
+                (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (
+                    <form onSubmit={onSubmit}>
+                        <input name="title" required value={newNoticeTitle} onChange={onChange} type="text" placeholder="공지사항 작성하시오." maxLength={120} />
+                        <input name="contents" required value={newNoticeContents} onChange={onChange} type="text" placeholder="내용을 작성하시오." maxLength={120} />
+                        <input type="submit" value="작성" />
+                    </form>) : (<></>)
+            }
         </div>);
 };
 
