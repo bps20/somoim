@@ -54,7 +54,6 @@ const createMarkers = (map, markerInfo, markerImage) => {
 
         content.appendChild(closeBtn);
         overlay.setContent(content);
-        console.log(content);
 
         overlay.setMap(null);
         kakao.maps.event.addListener(marker, 'click', clickListener(map, overlay));

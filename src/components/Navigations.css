@@ -4,4 +4,4 @@
 #menu_contents .content {list-style-type: none;}
 #nav_menu {position:absolute; left:1%;}
 #nav_profile {position:absolute; right:1%;}
-#nav_name {font-size: 20px;float:left;line-height: 27px;}
+#nav_name {font-size: 20px;float:left;line-height: 27px;font-family: 'Malgun Gothic', sans-serif;}

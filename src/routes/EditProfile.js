@@ -8,7 +8,7 @@ import { GiExitDoor } from "react-icons/gi";
 
 const EditProfile = ({ isLoggedIn, userObj }) => {
 
-    const [userName, setUserName] = useState(userObj.displayName);
+    const [userName, setUserName] = useState("");
     const [stateMsg, setStateMsg] = useState("");
 
     const onSubmit = async (event) => {
@@ -19,7 +19,7 @@ const EditProfile = ({ isLoggedIn, userObj }) => {
                     await updateProfile(userObj, { displayName: userName });
                     setStateMsg("이름이 성공적으로 변경되었습니다. 새로고침시 반영됩니다.")
                 } else { setStateMsg("이름은 기존 이름과 달라야 합니다.") }
-            } else { setStateMsg("이름의 길이는 1글자 ~ 10글자여야 합니다.") }
+            } else { setStateMsg("이름의 길이는 1글자 ~ 10글자이어야 합니다.") }
         } catch (error) {
             console.error("Error adding document: ", error);
         }
@@ -50,12 +50,12 @@ const EditProfile = ({ isLoggedIn, userObj }) => {
                 <div className="edit_name_text2">실명 또는 개인 구분이 가능한 이름으로 부탁드립니다.</div>
                 <div className="edit_name_text2">이름은 1~10글자로 설정할 수 있습니다.</div>
                 <div style={{paddingTop:'50px'}}>
-                    <form className="factoryForm" onSubmit={onSubmit}>
-                        <div className="factoryInput_container">
-                            <input className="factoryInput_input" value={userName} onChange={onChange} type="text" placeholder={userName} maxLength={10} />
+                    <form className="edit_name_form" onSubmit={onSubmit}>
+                        <div className="edit_name_container">
+                            <input className="factoryInput_input" value={userName} onChange={onChange} type="text" placeholder="변경할 이름" maxLength={10} />
                             <input type="submit" value="&rarr;" className="factoryInput__arrow" />
-                            <div>{stateMsg}</div>
                         </div>
+                        <div id="edit_name_msg">{stateMsg}</div>
                     </form>
                 </div>
             </div>

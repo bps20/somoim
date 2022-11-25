@@ -2,7 +2,7 @@ import "routes/Home.css";
 import { dbService } from "fbase";
 import { addDoc, collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import Notice from "components/Notice";
+import NoticeContent from "components/NoticeContent";
 import timeConvert from "components/Time";
 import { AiFillNotification } from "react-icons/ai"
 
@@ -57,7 +57,7 @@ const Home = ({ userObj }) => {
             <div id="notice_word"><div><AiFillNotification size={50}/></div><div>소모임 공지사항</div></div>
             <div className="notice_contents_wrap">
                 {notices.map((noticeOb) => (
-                    <Notice key={noticeOb.id} noticeObject={noticeOb} isOwner={noticeOb.creatorId === userObj.uid} />
+                    <NoticeContent key={noticeOb.id} noticeObject={noticeOb} isOwner={noticeOb.creatorId === userObj.uid} />
                 ))}
             </div>
             {

@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { BsPencilSquare, BsTrash} from "react-icons/bs";
 import { GiCancel } from "react-icons/gi";
 
-const Notice = ({ noticeObject, isOwner }) => {
-
+const NoticeContent = ({ noticeObject, isOwner }) => {
     const noticeObj = doc(dbService, "notice", `${noticeObject.id}`); //공지사항객체
+    
     const [editing, setEditing] = useState(false);
     const [newNoticeTitle, setNewNoticeTitle,] = useState(noticeObject.title);
     const [newNoticeContents, setNewNoticeContents] = useState(noticeObject.contents);
@@ -88,4 +88,4 @@ const Notice = ({ noticeObject, isOwner }) => {
     )
 };
 
-export default Notice;
+export default NoticeContent;
