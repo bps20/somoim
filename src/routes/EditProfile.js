@@ -6,7 +6,7 @@ import { Link, Navigate } from "react-router-dom";
 import { FaUserTag } from "react-icons/fa";
 import { GiExitDoor } from "react-icons/gi";
 
-const EditProfile = ({ isLoggedIn, userObj }) => {
+const EditProfile = ({ userObj }) => {
 
     const [userName, setUserName] = useState("");
     const [stateMsg, setStateMsg] = useState("");
@@ -33,7 +33,9 @@ const EditProfile = ({ isLoggedIn, userObj }) => {
 
     const onLogOutClick = () => {
         authService.signOut();
-        Navigate('/');
+        //window.location.reload('/');
+        setTimeout(() => Navigate('/'), 1000);
+        
     };
 
     return (
@@ -46,14 +48,14 @@ const EditProfile = ({ isLoggedIn, userObj }) => {
             </ul>
             <div id="edit_name_wrap">
                 <div id="edit_name_logo">이름 변경</div>
-                <div className="edit_name_text">이름은 탐방 지도 후기에 반영됩니다.</div>
+                <div className="edit_name_text">이름은 탐방 모임 신청 및 탐방 후기 지도에 반영됩니다.</div>
                 <div className="edit_name_text2">실명 또는 개인 구분이 가능한 이름으로 부탁드립니다.</div>
                 <div className="edit_name_text2">이름은 1~10글자로 설정할 수 있습니다.</div>
                 <div style={{paddingTop:'50px'}}>
                     <form className="edit_name_form" onSubmit={onSubmit}>
                         <div className="edit_name_container">
-                            <input className="factoryInput_input" value={userName} onChange={onChange} type="text" placeholder="변경할 이름" maxLength={10} />
-                            <input type="submit" value="&rarr;" className="factoryInput__arrow" />
+                            <input className="edit_name_input" value={userName} onChange={onChange} type="text" placeholder="변경할 이름" maxLength={10} />
+                            <input type="submit" value="&rarr;" className="edit_name_arrow" />
                         </div>
                         <div id="edit_name_msg">{stateMsg}</div>
                     </form>

@@ -1,5 +1,5 @@
 #login_wrap {position:relative; width: 100%; text-align: center; font-family:'Malgun Gothic', sans-serif;}
-#login_text {font-size: 50px; font-weight: bold; padding-top:10px; color: pink;}
+#login_text {font-size: 50px; font-weight: bold; padding-top:10px; color: rgb(98,126,163);}
 #login_box {display: inline-block;}
 .login_other_button {cursor:pointer; width:50px; height:50px; margin:20px;}
 

@@ -26,7 +26,7 @@
     width: 80%;
   }
  
-  .factoryInput_input {
+  .edit_name_input {
     flex-grow: 1;
     height: 40px;
     padding: 0px 20px;
@@ -37,7 +37,7 @@
     font-size: 15px;
   }
  
-  .factoryInput__arrow {
+  .edit_name_arrow{
     position: absolute;
     right: 0;
     background-color: #04aaff;

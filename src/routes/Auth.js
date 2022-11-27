@@ -38,6 +38,7 @@ const Auth = () => {
     };
     const toggleAccount = () => setNewAccount((prev) => !prev);
 
+    /*구글 로그인*/
     const onSocialClick = async (event) => {
         const { target: { name } } = event; //ev6
         let provider;
@@ -55,7 +56,7 @@ const Auth = () => {
     return (
         <div id="login_wrap">
             <div style={{ height: '5vh', padding: '0 50%' }}></div>
-            <div id="login_logotext"><FaSmileWink size="100" color="pink" /><div id="login_text">맛집 탐방 소모임</div></div>
+            <div id="login_logotext"><FaSmileWink size="100" color="rgb(98,126,163)" /><div id="login_text">맛집 탐방 소모임</div></div>
             <div style={{ height: '10vh', padding: '0 50%' }}></div>
             <div id="login_box">
                 <form className="login_box_form" onSubmit={onSubmit}>
@@ -82,5 +83,4 @@ const Auth = () => {
         </div>
     )
 };
-//<button className="login_other_button" onClick={onSocialClick} name="google"><img style={{width:'50px', height:'50px'}}src={require("img/google_login.png")}/></button>
 export default Auth;

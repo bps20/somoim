@@ -46,9 +46,9 @@ const Home = ({ userObj }) => {
                 });
                 setNoticeTitle("");
                 setNoticeContents("");
-            } else { console.log("Error : Title block is empty.") }
+            } else { console.log("Error") }
         } catch (error) {
-            console.error("Error adding document: ", error);
+            console.error("Error : ", error);
         }
     };
 

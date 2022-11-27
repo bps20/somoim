@@ -8,7 +8,7 @@ import createMarkers from "components/CreateMarkers";
 
 const { kakao } = window;
 
-const Map = ({ userObj }) => {
+const Map = ({ isLoggedIn, userObj }) => {
     let map;
     const initMapLat = 36.35133, initMapLng = 127.734086;
 
@@ -23,6 +23,8 @@ const Map = ({ userObj }) => {
             draggable: true,
             level: 12,
         };
+
+        console.log(isLoggedIn);
 
         map = new window.kakao.maps.Map(container, options); //지도 생성
         var zoomControl = new kakao.maps.ZoomControl();
@@ -87,11 +89,11 @@ const Map = ({ userObj }) => {
     };
 
     return (
-        <div>
-            <div id="map" style={{ width: "90%", height: "85vh", margin: "0px auto"}}></div>
-            { (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (<><form onSubmit={onSubmit}>
-            </form></>) : (<></>)}
-        </div>
+    <div>
+        <div id="map" style={{ width: "90%", height: "85vh", margin: "0px auto"}}/>
+    { (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (<><form onSubmit={onSubmit}></form></>) : (<></>)}
+    </div>
+        
     );
 };
 
