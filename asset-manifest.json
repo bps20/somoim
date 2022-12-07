@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/somoim/static/css/main.78509294.css",
-    "main.js": "/somoim/static/js/main.adf5ab8a.js",
+    "main.css": "/somoim/static/css/main.e422de83.css",
+    "main.js": "/somoim/static/js/main.b4688e87.js",
     "static/media/google_login.png": "/somoim/static/media/google_login.8b55b1663467c845c5ce.png",
     "index.html": "/somoim/index.html",
-    "main.78509294.css.map": "/somoim/static/css/main.78509294.css.map",
-    "main.adf5ab8a.js.map": "/somoim/static/js/main.adf5ab8a.js.map"
+    "main.e422de83.css.map": "/somoim/static/css/main.e422de83.css.map",
+    "main.b4688e87.js.map": "/somoim/static/js/main.b4688e87.js.map"
   },
   "entrypoints": [
-    "static/css/main.78509294.css",
-    "static/js/main.adf5ab8a.js"
+    "static/css/main.e422de83.css",
+    "static/js/main.b4688e87.js"
   ]
 }
