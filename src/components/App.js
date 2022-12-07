@@ -37,22 +37,11 @@ function App() {
     if (docSnap.exists()) {
       setSubmitUser(true);
       if(docSnap.data().accepted){
-        console.log(docSnap.data().accepted);
         setAcceptUser(true);
       }
     } else {
     }
   }
-
-  /*
-  const checkAcceptUser = async() => {
-    const docRef = doc(dbService, "member", targetUid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      setAcceptUser(true);
-    } else {
-    }
-  }*/
 
   return (
     <>

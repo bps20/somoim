@@ -6,6 +6,7 @@ import NeedAccept from "../routes/NeedAccept";
 import Navigation from "components/Navigations";
 import TourHistoryMap from "routes/HistoryMap";
 import EditProfile from "routes/EditProfile";
+import TambangList from "routes/TambangList";
 
 const AppRouter = ({ isLoggedIn, userObj, isAcceptUser, isSubmitUser }) => {
 
@@ -18,12 +19,14 @@ const AppRouter = ({ isLoggedIn, userObj, isAcceptUser, isSubmitUser }) => {
                         <>
                             <Route exact path="/" element={<Home userObj={userObj} />} />
                             <Route exact path="/map" element={<TourHistoryMap userObj={userObj} />} />
-                            <Route exact path="/EditProfile" element={<EditProfile userObj={userObj} />} />
+                            <Route exact path="/editProfile" element={<EditProfile userObj={userObj} />} />
+                            <Route exact path="/list" element={<TambangList userObj={userObj} />} />
                         </>) : (
                         <>
                             <Route exact path="/" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
                             <Route exact path="/map" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
-                            <Route exact path="/EditProfile" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
+                            <Route exact path="/editProfile" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
+                            <Route exact path="/list" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
                         </>)}
 
                     </>) : (

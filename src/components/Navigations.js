@@ -31,7 +31,7 @@ const Navigation = ({ userObj }) => {
                         <Link to="/" id="nav_logo" style={{ color: '#d6d6d6' }} onClick={offMenu}><FaSmileWink size="24" /></Link>
                     </li>
                     <li className="content">
-                        <Link to="/EditProfile" style={{ color: '#d6d6d6' }} onClick={offMenu}>
+                        <Link to="/editProfile" style={{ color: '#d6d6d6' }} onClick={offMenu}>
                             <div id="nav_profile"><div id="nav_name">{userObj.displayName}님</div><HiUserCircle size="24" /></div>
                         </Link>
                     </li>
@@ -41,11 +41,11 @@ const Navigation = ({ userObj }) => {
                 <div id="nav_menu_wrap">
                     <hr style={{width:'100%', border:'1px solid', color:'#1b1b1c', margin:'0'}}/>
                     <div className="nav_menu_content">
-                        <Link to="/map" className="nav_menu_link" onClick={offMenu}><div>탐방 지도</div></Link>
+                        <Link to="/map" className="nav_menu_link" onClick={offMenu}><div>탐방지도</div></Link>
                     </div>
                     
                     <div className="nav_menu_content">
-                        <Link to="/map" className="nav_menu_link" onClick={offMenu}>탐방 모임 리스트</Link>
+                        <Link to="/list" className="nav_menu_link" onClick={offMenu}>탐방모임 리스트</Link>
                     </div>
                 </div>) : (
                 <div></div>

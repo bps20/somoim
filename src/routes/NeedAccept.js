@@ -4,12 +4,12 @@ import { authService, dbService } from "fbase";
 import "routes/NeedAccept.css";
 
 import { GiExitDoor } from "react-icons/gi";
-import { updateProfile } from "firebase/auth";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const NeedAccept = ({ userObj, isSubmitUser }) => {
     const userID = userObj.uid;
-    const memberObj = doc(dbService, "member", `${userID}`); //공지사항객체
+    const userNick = userObj.displayName;
+    const memberObj = doc(dbService, "member", `${userID}`); //멤버정보 매칭
 
     const [userName, setUserName] = useState("");
     const [userSection, setUserSection] = useState("");
@@ -29,11 +29,11 @@ const NeedAccept = ({ userObj, isSubmitUser }) => {
                 if (userSection === "default") { //직렬이 기본선택이면 거절
                     setStateMsg("직렬을 선택해주십시오.")
                 } else {
-                    await updateProfile(userObj, { displayName: userName });
                     await setDoc(memberObj, {
                         name: userName,
                         section: userSection,
-                        accepted: false
+                        accepted: false,
+                        nickname: userNick
                     });
                     setSubmitState(true);
                     setStateMsg("성공적으로 제출되었습니다.")
@@ -66,13 +66,14 @@ const NeedAccept = ({ userObj, isSubmitUser }) => {
                 <li id="NA_logout"><Link style={{ color: 'black', textDecorationLine: 'none' }} onClick={onLogOutClick} to="/"><GiExitDoor size="37" /><div>로그아웃</div></Link></li>
                 {(!isSubmitUser || submitState) ? (
                     <div id="NA_info_wrap">
-                        <div className="edit_name_text">이름은 탐방 모임 신청 및 탐방 후기 지도에 반영됩니다.</div>
-                        <div className="edit_name_text2">실명 또는 개인 구분이 가능한 이름으로 부탁드립니다.</div>
+                        <div className="edit_name_text">이름은 1인 1아이디 제한으로 인해 소모임 가입 과정에서만 확인됩니다.</div>
+                        <div className="edit_name_text2">실명으로 부탁드립니다. 승인과 동시에 데이터베이스에서 삭제됩니다.</div>
+                        <div className="edit_name_text2">동의하시면 성함과 직렬을 입력하시고 진행하십시오.</div>
                         <div className="edit_name_text2">이름은 1~10글자로 설정할 수 있습니다.</div>
                         <div style={{ paddingTop: '50px' }}>
                             <form className="edit_name_form" onSubmit={onSubmit}>
                                 <div className="edit_name_container">
-                                    <input name="nameInput" className="edit_name_input" value={userName} onChange={onChange} type="text" placeholder="설정할 이름" maxLength={10} />
+                                    <input name="nameInput" className="edit_name_input" value={userName} onChange={onChange} type="text" placeholder="성함" maxLength={10} />
                                     <input type="submit" value="&rarr;" className="edit_name_arrow" />
                                 </div>
                                 <select onChange={handleChange}>

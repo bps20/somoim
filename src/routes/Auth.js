@@ -71,12 +71,11 @@ const Auth = () => {
                         {error}
                     </div>
                 </form>
-
                 <button onClick={toggleAccount}>
                     {newAccount ? "로그인 모드" : "회원가입 모드"}
                 </button>
                 <div>
-                    <img className="login_other_button" onClick={onSocialClick} name="google" src={require("img/google_login.png")} />
+                    <img name="google" className="login_other_button" onClick={onSocialClick} src={require("img/google_login.png")}/>
                 </div>
             </div>
 
