@@ -22,6 +22,7 @@ function App() {
         targetUid = user.uid;
         checkAcceptUser(); //user승인여부 체크
         // setTimeout(() => checkAcceptUser(), 1000);
+        console.log(targetUid);
       } else {
         setAcceptUser(false);
         setSubmitUser(false);
