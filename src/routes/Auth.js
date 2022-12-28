@@ -8,6 +8,7 @@ import { FaSmileWink } from "react-icons/fa";
 const Auth = () => {
     const [email, setEmail] = useState(""); //email 체크
     const [password, setPassword] = useState(""); //password 체크
+    const [guest, setGuest] = useState(true); //Guest mode
     const [newAccount, setNewAccount] = useState(false); //아이디 생성여부 체크
     const [error, setError] = useState(""); //에러 체크
 
@@ -24,11 +25,9 @@ const Auth = () => {
         event.preventDefault(); //기본행위 실행방지
         try {
             let data;
-            if (newAccount) {
-                //create Account
+            if (newAccount) {//Account 생성
                 data = await createUserWithEmailAndPassword(authService, email, password);
-            } else {
-                //login
+            } else { //login
                 data = await signInWithEmailAndPassword(authService, email, password);
             }
         } catch (error) {
@@ -37,8 +36,21 @@ const Auth = () => {
 
     };
     const toggleAccount = () => setNewAccount((prev) => !prev);
+    const toggleGuest = () => setGuest((prev) => !prev);
 
-    /*구글 로그인*/
+    const guestLogin = async (event) => {
+        event.preventDefault();
+        try {
+            let data;
+            data = await signInWithEmailAndPassword(authService, 'guest@guest.com', 'guestguest');
+        } catch (error) {
+            setError(error.message);
+        }
+    }
+
+
+
+    /*구글 로그인 현재 사용하지 않음*/
     const onSocialClick = async (event) => {
         const { target: { name } } = event; //ev6
         let provider;
@@ -56,28 +68,35 @@ const Auth = () => {
     return (
         <div id="login_wrap">
             <div style={{ height: '5vh', padding: '0 50%' }}></div>
-            <div id="login_logotext"><FaSmileWink size="100" color="rgb(98,126,163)" /><div id="login_text">맛집 탐방 소모임</div></div>
-            <div style={{ height: '10vh', padding: '0 50%' }}></div>
-            <div id="login_box">
-                <form className="login_box_form" onSubmit={onSubmit}>
-                    <div className="login_box_container">
-                        <input className="login_box_input" name="email" type="email" placeholder="이메일"
-                            required value={email} onChange={onChange} />
-                        <input className="login_box_input" name="password" type="password" placeholder="암호"
-                            required value={password} onChange={onChange} />
-                        <input className="login_box_submit" type="submit" value="&rarr;" />
-                    </div>
-                    <div>
-                        {error}
-                    </div>
-                </form>
-                <button onClick={toggleAccount}>
-                    {newAccount ? "로그인 모드" : "회원가입 모드"}
-                </button>
-                <div>
-                    <img name="google" className="login_other_button" onClick={onSocialClick} src={require("img/google_login.png")}/>
-                </div>
+            <div>
+                <img name="google" className="mainlogo" onClick={guestLogin} src={require("img/mainlogo.jpeg")} />
             </div>
+            {guest ? (
+                <div style={{ paddingBottom: '10vh', color: 'gray'}}>로고를 클릭하면 소모임원으로 로그인됩니다.</div>
+            ) : (
+                <div id="login_box">
+                    <form className="login_box_form" onSubmit={onSubmit}>
+                        <div className="login_box_container">
+                            <input className="login_box_input" name="email" type="email" placeholder="이메일"
+                                required value={email} onChange={onChange} />
+                            <input className="login_box_input" name="password" type="password" placeholder="암호"
+                                required value={password} onChange={onChange} />
+                            <input className="login_box_submit" type="submit" value="&rarr;" />
+                        </div>
+                        <div>
+                            {error}
+                        </div>
+                    </form>
+                    <div>
+                        <img name="google" className="login_other_button" onClick={() => alert("사이트 관리자가 Google 로그인을 허용하지 않은 상태입니다.")} src={require("img/google_login.png")} />
+                    </div>
+                </div>
+            )}
+            <button onClick={toggleGuest}>
+                {guest ? "사이트 관리자로 접속" : "소모임원으로 접속"}
+            </button>
+
+
 
         </div>
     )

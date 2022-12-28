@@ -28,7 +28,7 @@ const Navigation = ({ userObj }) => {
                         </div>
                     </li>
                     <li className="content" style={{ height: '0' }}>
-                        <Link to="/" id="nav_logo" style={{ color: '#d6d6d6' }} onClick={offMenu}><FaSmileWink size="24" /></Link>
+                        <Link to="/" id="nav_logo" style={{ color: '#d6d6d6' }} onClick={offMenu}><img style={{height: '28px'}} src={require("img/navlogo.png")} /></Link>
                     </li>
                     <li className="content">
                         <Link to="/editProfile" style={{ color: '#d6d6d6' }} onClick={offMenu}>
@@ -45,7 +45,7 @@ const Navigation = ({ userObj }) => {
                     </div>
                     
                     <div className="nav_menu_content">
-                        <Link to="/list" className="nav_menu_link" onClick={offMenu}>탐방모임 리스트</Link>
+                        <Link to="/list" className="nav_menu_link" onClick={offMenu}>테마 지역 탐방</Link>
                     </div>
                 </div>) : (
                 <div></div>

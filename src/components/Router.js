@@ -12,23 +12,14 @@ const AppRouter = ({ isLoggedIn, userObj, isAcceptUser, isSubmitUser }) => {
 
     return (
         <Router>
-            {isLoggedIn && isAcceptUser && isSubmitUser &&<Navigation userObj={userObj} />}
+            {isLoggedIn && <Navigation userObj={userObj} />}
             <Routes>
-                {isLoggedIn ? (//Login여부확인
-                    <>{(isAcceptUser && isSubmitUser)? (
-                        <>
-                            <Route exact path="/" element={<Home userObj={userObj} />} />
-                            <Route exact path="/map" element={<TourHistoryMap userObj={userObj} />} />
-                            <Route exact path="/editProfile" element={<EditProfile userObj={userObj} />} />
-                            <Route exact path="/list" element={<TambangList userObj={userObj} />} />
-                        </>) : (
-                        <>
-                            <Route exact path="/" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
-                            <Route exact path="/map" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
-                            <Route exact path="/editProfile" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
-                            <Route exact path="/list" element={<NeedAccept userObj={userObj} isSubmitUser={isSubmitUser}/>} />
-                        </>)}
-
+                {isLoggedIn ? (//Login여부확인 
+                    <>
+                        <Route exact path="/" element={<Home userObj={userObj} />} />
+                        <Route exact path="/map" element={<TourHistoryMap userObj={userObj} />} />
+                        <Route exact path="/editProfile" element={<EditProfile userObj={userObj} />} />
+                        <Route exact path="/list" element={<TambangList userObj={userObj} />} />
                     </>) : (
                     <Route exact path="/" element={<Auth />} />
                 )}

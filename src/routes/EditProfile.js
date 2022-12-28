@@ -20,7 +20,7 @@ const EditProfile = ({ userObj }) => {
             if ((userName.length >= 1)) { //닉네임 길이가 1이상
                 if (userName !== userObj.displayName) {
                     await updateProfile(userObj, { displayName: userName });
-                    await updateDoc(doc(dbService,"member", userID),{nickname: userName});
+                    await updateDoc(doc(dbService, "member", userID), { nickname: userName });
                     setStateMsg("별명이 성공적으로 변경되었습니다. 새로고침시 반영됩니다.")
                 } else { setStateMsg("별명은 기존 별명과 달라야 합니다.") }
             } else { setStateMsg("별명의 길이는 1글자 ~ 10글자이어야 합니다.") }
@@ -39,31 +39,37 @@ const EditProfile = ({ userObj }) => {
         authService.signOut();
         //window.location.reload('/');
         setTimeout(() => Navigate('/'), 1000);
-        
+
     };
 
     return (
         <div id="profile_wrap">
             <ul id="profile_menu_bar">
                 <div id="profile_menu_contents">
-                    <li className="content"><Link style={{ color: 'black', textDecorationLine: 'none' }}><FaUserTag size="37" /><div>별명 변경</div></Link></li>
+                    <li className="content"><Link style={{ color: 'black', textDecorationLine: 'none' }}><FaUserTag size="37" /><div>이름 변경</div></Link></li>
                     <li className="content"><Link style={{ color: 'black', textDecorationLine: 'none' }} onClick={onLogOutClick} to="/"><GiExitDoor size="37" /><div>로그아웃</div></Link></li>
                 </div>
             </ul>
             <div id="edit_name_wrap">
-                <div id="edit_name_logo">별명 변경</div>
-                <div className="edit_name_text">별명은 탐방모임 신청 및 탐방기록에 반영됩니다.</div>
-                <div className="edit_name_text2">되도록 개인 구분이 가능한 별명으로 부탁드립니다.</div>
-                <div className="edit_name_text2">별명은 1~6글자로 설정할 수 있습니다.</div>
-                <div style={{paddingTop:'50px'}}>
-                    <form className="edit_name_form" onSubmit={onSubmit}>
-                        <div className="edit_name_container">
-                            <input className="edit_name_input" value={userName} onChange={onChange} type="text" placeholder="변경할 이름" maxLength={6} />
-                            <input type="submit" value="&rarr;" className="edit_name_arrow" />
-                        </div>
-                        <div id="edit_name_msg">{stateMsg}</div>
-                    </form>
-                </div>
+                <div id="edit_name_logo">이름 변경</div>
+                {userObj.uid === "eHLFSDBh5nduVbEKsn5puV2jqdv2" ? (
+                    <div className="edit_name_text">소모임원으로 로그인시 이름 변경이 불가합니다.</div>
+                ) : (<>
+                    <div className="edit_name_text">별명은 탐방모임 신청 및 탐방기록에 반영됩니다.</div>
+                    <div className="edit_name_text2">되도록 개인 구분이 가능한 별명으로 부탁드립니다.</div>
+                    <div className="edit_name_text2">별명은 1~6글자로 설정할 수 있습니다.</div>
+                    <div style={{ paddingTop: '50px' }}>
+                        <form className="edit_name_form" onSubmit={onSubmit}>
+                            <div className="edit_name_container">
+                                <input className="edit_name_input" value={userName} onChange={onChange} type="text" placeholder="변경할 이름" maxLength={6} />
+                                <input type="submit" value="&rarr;" className="edit_name_arrow" />
+                            </div>
+                            <div id="edit_name_msg">{stateMsg}</div>
+                        </form>
+                    </div>
+                </>
+                )}
+
             </div>
 
         </div>
