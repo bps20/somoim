@@ -61,7 +61,7 @@ const Home = ({ userObj }) => {
                 ))}
             </div>
             {
-                (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (
+                (userObj.uid === "dWSqO5FSMRWoIDCBpyjxEOh87z83") ? (
                     <form onSubmit={onSubmit}>
                         <input name="title" required value={newNoticeTitle} onChange={onChange} type="text" placeholder="공지사항 작성하시오." maxLength={120} />
                         <input name="contents" required value={newNoticeContents} onChange={onChange} type="text" placeholder="내용을 작성하시오." maxLength={120} />

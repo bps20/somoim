@@ -3,17 +3,35 @@ import { renderToString } from "react-dom/server";
 
 const { kakao } = window;
 
+var selectedMarker = null;
+
 /*맵에 마커를 뿌린다*/
-const createMarkers = (map, markerInfo, markerImage) => {
+const createMarkers = (map, markerInfo) => {
     for (var i = 0; i < markerInfo.length; i++) {
         const PinLatLng = new kakao.maps.LatLng(markerInfo[i].Lat, markerInfo[i].Lng);
+
+        var imageDefaultSrc = require("img/blueMarker.png"),
+            imageOverSrc = require("img/deepblueMarker.png"),
+            imageClickSrc = require("img/redMarker.png"),
+            imageSize = new kakao.maps.Size(27, 41),
+            imageOption = { offset: new kakao.maps.Point(13.5, 41) };
+        var defaultImage = new kakao.maps.MarkerImage(imageDefaultSrc, imageSize, imageOption);
+        var overImage = new kakao.maps.MarkerImage(imageOverSrc, imageSize, imageOption);
+        var clickImage = new kakao.maps.MarkerImage(imageClickSrc, imageSize, imageOption);
 
         var marker = new kakao.maps.Marker({
             map: map,
             position: PinLatLng,
-            image: markerImage
+            image: defaultImage
         });
         //marker.setMap(map); //마커표시
+
+        marker.normalImage = defaultImage;
+
+        kakao.maps.event.addListener(marker, 'mouseover', mouseListener(marker, overImage));
+        kakao.maps.event.addListener(marker, 'mouseout', mouseListener(marker, defaultImage));
+        kakao.maps.event.addListener(marker, 'click', mouseClickListener(marker, clickImage));
+
 
         var overlay = new kakao.maps.CustomOverlay({
             map: map,
@@ -50,7 +68,7 @@ const createMarkers = (map, markerInfo, markerImage) => {
 
         var closeBtn = document.createElement("div");
         closeBtn.className = "close";
-        closeBtn.onclick = closeOverlay(overlay);
+        closeBtn.onclick = closeOverlay(marker, overlay);
 
         content.appendChild(closeBtn);
         overlay.setContent(content);
@@ -63,11 +81,41 @@ const createMarkers = (map, markerInfo, markerImage) => {
             overlay.setMap(map);
         };
     }
-    function closeOverlay(overlay) {
+    function closeOverlay(marker, overlay) {
         return function () {
             overlay.setMap(null);
+            marker.setImage(defaultImage);
         };
     }
+
+    /*마커 마우스오버*/
+    function mouseListener(marker, Image) {
+        return function () {
+            // 클릭된 마커가 없고, mouseover된 마커가 클릭된 마커가 아니면
+            // 마커의 이미지를 오버 이미지로 변경합니다
+            if (!selectedMarker || selectedMarker !== marker) {
+                marker.setImage(Image);
+            }
+        }
+    }
+    /*마커 클릭*/
+    function mouseClickListener(marker, clickImage) {
+        return function () {
+            // 클릭된 마커가 없고, click 마커가 클릭된 마커가 아니면
+            // 마커의 이미지를 클릭 이미지로 변경합니다
+            if (!selectedMarker || selectedMarker !== marker) {
+                // 클릭된 마커 객체가 null이 아니면
+                // 클릭된 마커의 이미지를 기본 이미지로 변경하고
+                !!selectedMarker && selectedMarker.setImage(selectedMarker.normalImage);
+                // 현재 클릭된 마커의 이미지는 클릭 이미지로 변경합니다
+                marker.setImage(clickImage);
+            }
+            // 클릭된 마커를 현재 클릭된 마커 객체로 설정합니다
+            selectedMarker = marker;
+        }
+    }
+
+    
 }
 
-    export default createMarkers;
+export default createMarkers;

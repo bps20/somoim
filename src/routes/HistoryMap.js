@@ -1,5 +1,5 @@
 /* global kakao */
-import "components/Map.css";
+import "routes/HistoryMap.css";
 import React, { useEffect, useState } from "react";
 import { dbService } from "fbase";
 import { addDoc, collection, getDocs, onSnapshot, query } from "firebase/firestore";
@@ -30,10 +30,7 @@ const HistoryMap = ({ userObj }) => {
         var zoomControl = new kakao.maps.ZoomControl();
         map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-        var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
-            imageSize = new kakao.maps.Size(56, 60.375),
-            imageOption = { offset: new kakao.maps.Point(27, 69) };
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
 
         /*DB연결*/
         const q = query(collection(dbService, "map"));
@@ -61,7 +58,7 @@ const HistoryMap = ({ userObj }) => {
         getData();*/
 
         //맵마커 생성
-        createMarkers(map, mapMarkers, markerImage);
+        createMarkers(map, mapMarkers);
         setTimeout(() => setRevealMap(true), 1000);
     }, [RevealMap]);
 
@@ -88,11 +85,12 @@ const HistoryMap = ({ userObj }) => {
         setNewMarker(value);
     };
 
+
     return (
-    <div>
-        <div id="map" style={{ width: "90%", height: "85vh", margin: "0px auto" }} />
-        {(userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (<><form onSubmit={onSubmit}></form></>) : (<></>)}
-    </div>
+        <div>
+            <div id="map" style={{ width: "100%", height: "85vh", margin: "0px auto" }} />
+            {(userObj.uid === "dWSqO5FSMRWoIDCBpyjxEOh87z83") ? (<><form onSubmit={onSubmit}></form></>) : (<></>)}
+        </div>
     );
 };
 

@@ -90,8 +90,8 @@ const Map = ({ isLoggedIn, userObj }) => {
 
     return (
     <div>
-        <div id="map" style={{ width: "90%", height: "85vh", margin: "0px auto"}}/>
-    { (userObj.uid === "CAah49juE4Z5PGnheuO6iw2sV012") ? (<><form onSubmit={onSubmit}></form></>) : (<></>)}
+        
+    { (userObj.uid === "dWSqO5FSMRWoIDCBpyjxEOh87z83") ? (<><form onSubmit={onSubmit}></form></>) : (<></>)}
     </div>
         
     );
