@@ -1,6 +1,5 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
-import starImg from "img/star.png";
 
 const { kakao } = window;
 
@@ -64,7 +63,7 @@ const createMarkers = (map, markerInfo) => {
                             <div class="t_member">{markerInfo[i].t_memberID}</div>
                         </div>
                         <div>
-                            <a href={markerInfo[i].link} targer="_blank" class="link" style={{ color: "#5085BB", textDecorationLine: "none" }}>탐방후기 by {markerInfo[i].t_leaderID}</a>
+                            <a href={markerInfo[i].link} targer="_blank" class="link" style={{ color: "#5085BB", textDecorationLine: "none" }}>탐방후기 by {markerInfo[i].t_writer}</a>
                         </div>
                     </div>
                 </div>
