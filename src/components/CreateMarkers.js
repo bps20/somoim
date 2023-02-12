@@ -56,14 +56,14 @@ const createMarkers = (map, markerInfo) => {
                     <div class="desc">
                         <div class="t_date" style={{display: "flex"}}>
                             <div style={{color: "black", fontSize: "12px"}}>⭐️ {markerInfo[i].star}</div>
-                            <div style={{marginLeft: "auto"}}>{markerInfo[i].t_date}</div>
+                            <div style={{marginLeft: "auto"}}>{markerInfo[i].date}</div>
                         </div>
-                        <div class="t_category">{markerInfo[i].t_title}</div>
+                        <div class="t_category">{markerInfo[i].category}</div>
                         <div class="memberBox">
-                            <div class="t_member">{markerInfo[i].t_memberID}</div>
+                            <div class="t_member">{markerInfo[i].member}</div>
                         </div>
                         <div>
-                            <a href={markerInfo[i].link} targer="_blank" class="link" style={{ color: "#5085BB", textDecorationLine: "none" }}>탐방후기 by {markerInfo[i].t_writer}</a>
+                            <a href={markerInfo[i].link} targer="_blank" class="link" style={{ color: "#5085BB", textDecorationLine: "none" }}>탐방후기 by {markerInfo[i].writer}</a>
                         </div>
                     </div>
                 </div>
