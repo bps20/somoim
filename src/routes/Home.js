@@ -52,9 +52,13 @@ const Home = ({ userObj }) => {
         }
     };
 
+    /* 소모임 공지사항 출력 */
     return (
-        <div id="home_wrap">
-            <div id="notice_word"><div><AiFillNotification size={50}/></div><div>소모임 공지사항</div></div>
+        <div className="page_contents_wrap">
+            <div className="page_title_word">
+                <div><AiFillNotification size={50}/></div>
+                <div>소모임 공지사항</div>
+            </div>
             <div className="notice_contents_wrap">
                 {notices.map((noticeOb) => (
                     <NoticeContent key={noticeOb.id} noticeObject={noticeOb} isOwner={noticeOb.creatorId === userObj.uid} />

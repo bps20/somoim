@@ -1,5 +1,6 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
+import starImg from "img/star.png";
 
 const { kakao } = window;
 
@@ -42,20 +43,28 @@ const createMarkers = (map, markerInfo) => {
             yAnchor: 2
         });
 
+        //var tempimgsrc = require(markerInfo[i].img);
+
+        console.log(markerInfo[i].img);
+        var temp = markerInfo[i].img;
+        console.log(temp);
+
         const conBase = (
-            <div class="info">
+            <div className="info">
                 <div class="title">{markerInfo[i].title}</div>
                 <div class="body">
                     <div class="img"><img src={markerInfo[i].img} width="73" height="73" /></div>
                     <div class="desc">
-                        <div class="t_date">{markerInfo[i].t_date}</div>
-                        <div class="t_title">{markerInfo[i].t_title}</div>
-                        <div class="members">
-                            <div class="t_leader">{markerInfo[i].t_leaderID}</div>
+                        <div class="t_date" style={{display: "flex"}}>
+                            <div style={{color: "black", fontSize: "12px"}}>⭐️ {markerInfo[i].star}</div>
+                            <div style={{marginLeft: "auto"}}>{markerInfo[i].t_date}</div>
+                        </div>
+                        <div class="t_category">{markerInfo[i].t_title}</div>
+                        <div class="memberBox">
                             <div class="t_member">{markerInfo[i].t_memberID}</div>
                         </div>
                         <div>
-                            <a href={markerInfo[i].link} targer="_blank" class="link">탐방후기(카페링크)</a>
+                            <a href={markerInfo[i].link} targer="_blank" class="link" style={{ color: "#5085BB", textDecorationLine: "none" }}>탐방후기 by {markerInfo[i].t_leaderID}</a>
                         </div>
                     </div>
                 </div>
@@ -66,6 +75,9 @@ const createMarkers = (map, markerInfo) => {
         const stringElement = renderToString(conBase);
         content.innerHTML = stringElement;
 
+        /**<div className="marker_info_close" onClick={closeOverlay(marker,overlay)} />
+         * 
+         **/
         var closeBtn = document.createElement("div");
         closeBtn.className = "close";
         closeBtn.onclick = closeOverlay(marker, overlay);

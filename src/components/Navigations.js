@@ -41,11 +41,11 @@ const Navigation = ({ userObj }) => {
                 <div id="nav_menu_wrap">
                     <hr style={{width:'100%', border:'1px solid', color:'#1b1b1c', margin:'0'}}/>
                     <div className="nav_menu_content">
-                        <Link to="/map" className="nav_menu_link" onClick={offMenu}><div>탐방지도</div></Link>
+                        <Link to="/map" className="nav_menu_link" onClick={offMenu}><div>탐방 지도</div></Link>
                     </div>
                     
                     <div className="nav_menu_content">
-                        <Link to="/list" className="nav_menu_link" onClick={offMenu}>테마 지역 탐방</Link>
+                        <Link to="/list" className="nav_menu_link" onClick={offMenu}>맛집 탐방 후기</Link>
                     </div>
                 </div>) : (
                 <div></div>

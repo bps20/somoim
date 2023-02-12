@@ -12,8 +12,7 @@ const { kakao } = window;
 
 const HistoryMap = ({ userObj }) => {
     let map;
-    const initMapLat = 36.35133, initMapLng = 127.734086;
-
+    const initMapLat = 37.5511694, initMapLng = 126.9882266; //남산타워
     const [newMarker, setNewMarker] = useState(""); //새마커 추가
     const [mapMarkers, setMapMarkers] = useState([]); //맵마커 리스트
     const [RevealMap, setRevealMap] = useState(false); //지도 갱신용 state
@@ -23,7 +22,7 @@ const HistoryMap = ({ userObj }) => {
         let options = {
             center: new window.kakao.maps.LatLng(initMapLat, initMapLng),
             draggable: true,
-            level: 12,
+            level: 8,
         };
 
         map = new window.kakao.maps.Map(container, options); //지도 생성
